@@ -1,13 +1,13 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace Blutik
+namespace Magic.SelectionButtonNET
 {
     /// <summary>
     /// Class ini hanya menambahkan item di dropdown menu.
     /// Untuk mengaktifkan atau menon-aktifkan dropdown menu bukan jobdesk kelas ini.
     /// </summary>
-    public class SingleSelectionButton
+    public class Single
     {
         public event Action<MenuItemSelectedEventArgs>? MenuItemSelectedEvent;
 
@@ -32,7 +32,7 @@ namespace Blutik
 
         private ToolStripMenuItem? SelectedMenuItem { get; set; }
 
-        public SingleSelectionButton()
+        public Single()
         {
 
         } // end of method
