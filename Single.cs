@@ -9,28 +9,33 @@ namespace Magic.SelectionButtonNET
     /// </summary>
     public class Single
     {
-        public event Action<MenuItemSelectedEventArgs>? MenuItemSelectedEvent;
+        // EVENT
 
-        public class MenuItemSelectedEventArgs
+        public event Action<SelectedMenuItemEventArgs>? SelectedMenuItemEvent;
+
+        public class SelectedMenuItemEventArgs
         {
 
-            public ToolStripMenuItem SelectedMenuItem { get; set; }
             public int SelectedItemId { get; set; }
 
-            public MenuItemSelectedEventArgs(ToolStripMenuItem selectedMenuItem, int selectedItemId)
+            public SelectedMenuItemEventArgs(int selectedItemId)
             {
 
-                this.SelectedMenuItem = selectedMenuItem;
                 SelectedItemId = selectedItemId;
+
             } // end of constructor method
 
         } // end of method
 
-        public ToolStripDropDownButton? ToolStripDropDownButton { get; set; }
-        public Dictionary<int, string>? ItemData { get; set; }
-        public int SelectedItemId { get; set; }
+        // INPUT
 
-        private ToolStripMenuItem? SelectedMenuItem { get; set; }
+        public ToolStripDropDownButton? ToolStripDropDownButton { get; set; }
+        public Dictionary<int, string>? ItemData { get; set; } // data yang akan menjadi selection items
+        public int SelectedItemId { get; set; } // ID item yang terpilih. Initialize dari input, nantinya bisa berubah dan menjadi output
+
+        // INTERNAL
+
+        private ToolStripMenuItem? SelectedMenuItem { get; set; } = null; // gunanya untuk toggle indikator. Menyimpan menu item yang terpilih eksisting untuk kepentingan toggle.
 
         public Single()
         {
@@ -68,9 +73,6 @@ namespace Magic.SelectionButtonNET
                 }
             }
 
-            // KIRIM DATA SELECTED VIA EVENT
-            InvokeEvent();
-
         } // end of method
 
         private void MenuItem_Click(object? sender, EventArgs e)
@@ -88,7 +90,7 @@ namespace Magic.SelectionButtonNET
             SetMenuItemUI(clickedMenuItem!, true);
             SelectedMenuItem = clickedMenuItem;
 
-            // SAVE SELECTION YANG BARU KE DATABASE
+            // CATAT HASIL SELECTION YANG BARU
             SelectedItemId = (int)SelectedMenuItem!.Tag!;
 
             // KIRIM RESULT VIA EVENT
@@ -100,8 +102,8 @@ namespace Magic.SelectionButtonNET
         {
             if (isSelected)
             {
-                menuItem.Image = CreateFilledCircleIcon(Color.Green);
                 menuItem.Checked = false; // Set Checked to false to remove default check mark
+                menuItem.Image = CreateFilledCircleIcon(Color.Green);
             }
             else
             {
@@ -165,7 +167,7 @@ namespace Magic.SelectionButtonNET
         {
 
             ToolStripDropDownButton!.Text = TrimTextToFit(ToolStripDropDownButton, SelectedMenuItem!.Text!);
-            MenuItemSelectedEvent?.Invoke(new MenuItemSelectedEventArgs(SelectedMenuItem!, SelectedItemId));
+            SelectedMenuItemEvent?.Invoke(new SelectedMenuItemEventArgs(SelectedItemId));
 
         } // end of method
 
