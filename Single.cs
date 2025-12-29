@@ -66,11 +66,14 @@ namespace Magic.SelectionButtonNET
                     if (item.Key == SelectedItemId)
                     {
                         SelectedMenuItem = menuItem;
+
                         SetMenuItemUI(menuItem, true);
                     }
 
                     ToolStripDropDownButton.DropDownItems.Add(menuItem);
                 }
+
+                InvokeEvent();
             }
 
         } // end of method

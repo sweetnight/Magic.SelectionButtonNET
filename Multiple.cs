@@ -38,7 +38,6 @@ namespace Magic.SelectionButtonNET
 
         public Multiple()
         {
-
         } // end of method
 
         public void InitializeToolStripMenu()
@@ -101,7 +100,7 @@ namespace Magic.SelectionButtonNET
 
             List<int> selectedItemIds = new List<int>();
 
-            foreach (ToolStripMenuItem item in ToolStripDropDownButton!.DropDownItems)
+            foreach (ToolStripItem item in ToolStripDropDownButton!.DropDownItems)
             {
                 if (item is ToolStripMenuItem menuItem)
                 {
@@ -131,7 +130,7 @@ namespace Magic.SelectionButtonNET
             bool isAllMenuItemChecked = true;
 
             // iterasi semua menu item untuk cek kondisi all-checked atau tidak, juga untuk laporan output ke event
-            foreach (ToolStripMenuItem item in ToolStripDropDownButton!.DropDownItems)
+            foreach (ToolStripItem item in ToolStripDropDownButton!.DropDownItems)
             {
                 if (item is ToolStripMenuItem toolStripMenuItem && toolStripMenuItem.Tag != null && (int)toolStripMenuItem.Tag == AllValue)
                 {
