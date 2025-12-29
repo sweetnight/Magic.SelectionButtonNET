@@ -40,6 +40,16 @@ using Magic.SelectionButtonNET;
 
 ## Single Selection
 
+Event `SelectedMenuItemEvent` mengirimkan object `SelectedMenuItemEventArgs` dengan properti berikut:
+
+| Property | Type | Description |
+| ------- | ---- | ----------- |
+| FirstTime | bool | `true` jika event berasal dari proses inisialisasi, `false` jika berasal dari interaksi user |
+| SelectedItemId | int | ID item terpilih (Single Selection) |
+| SelectedItemIds | List<int> | Daftar ID terpilih (Multiple Selection) |
+| SelectedText | string | Text item terpilih |
+
+
 ### Class
 
 ```csharp
@@ -54,6 +64,8 @@ Single
 | ItemData                | Data pilihan (ID → Text)     |
 | SelectedItemId          | ID terpilih (input & output) |
 
+---
+
 ### Event
 
 ```csharp
@@ -64,7 +76,24 @@ Event dipanggil setiap kali selection berubah.
 
 ---
 
-### Contoh Penggunaan
+---- | ---- | ----------- |
+| FirstTime | bool | Menandakan event berasal dari proses inisialisasi (`true`) atau dari interaksi user (`false`) |
+
+Event akan otomatis dipanggil saat:
+
+```csharp
+InitializeToolStripMenu()
+```
+
+dengan nilai:
+
+```csharp
+FirstTime = true
+```
+
+---
+
+### Cara Penggunaan yang Benar
 
 ```csharp
 var single = new Single
@@ -81,7 +110,10 @@ var single = new Single
 
 single.SelectedMenuItemEvent += e =>
 {
-    Console.WriteLine($"Selected ID: {e.SelectedItemId}");
+    // Abaikan event inisialisasi
+    if (e.FirstTime) return;
+
+    Console.WriteLine($"User selected ID: {e.SelectedItemId}");
 };
 
 single.InitializeToolStripMenu();
@@ -169,16 +201,22 @@ multiple.InitializeToolStripMenu();
 
 ## Design Contract
 
+* Event `SelectedMenuItemEvent` selalu dipanggil satu kali saat proses inisialisasi pada class `Single` dengan `FirstTime = true`
+* Event berikutnya selalu berasal dari interaksi user dengan `FirstTime = false`
+
+
 * Library hanya mengatur UI dan state selection
 * Tidak menyimpan data eksternal
 * Semua hasil selection dikirim lewat event
 * Aman digunakan ulang oleh developer lain
+* Event `SelectedMenuItemEvent` **selalu dipanggil satu kali saat inisialisasi** pada class `Single`
+* Developer **wajib memeriksa `FirstTime`** jika hanya ingin merespon interaksi user
 
 ---
 
 ## Catatan Penting
 
-* Semua input property harus diset sebelum memanggil InitializeToolStripMenu()
+* Semua input property harus diset sebelum memanggil `InitializeToolStripMenu()`
 * Jangan menaruh logic database di dalam class library ini
 
 ---
