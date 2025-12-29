@@ -40,16 +40,6 @@ using Magic.SelectionButtonNET;
 
 ## Single Selection
 
-Event `SelectedMenuItemEvent` mengirimkan object `SelectedMenuItemEventArgs` dengan properti berikut:
-
-| Property | Type | Description |
-| ------- | ---- | ----------- |
-| FirstTime | bool | `true` jika event berasal dari proses inisialisasi, `false` jika berasal dari interaksi user |
-| SelectedItemId | int | ID item terpilih (Single Selection) |
-| SelectedItemIds | List<int> | Daftar ID terpilih (Multiple Selection) |
-| SelectedText | string | Text item terpilih |
-
-
 ### Class
 
 ```csharp
@@ -72,28 +62,19 @@ Single
 event Action<SelectedMenuItemEventArgs> SelectedMenuItemEvent
 ```
 
-Event dipanggil setiap kali selection berubah.
+Event `SelectedMenuItemEvent` mengirimkan object `SelectedMenuItemEventArgs` dengan properti berikut:
+
+| Property | Type | Description |
+| ------- | ---- | ----------- |
+| FirstTime | bool | `true` jika event berasal dari proses inisialisasi, `false` jika berasal dari interaksi user |
+| SelectedItemId | int | ID item terpilih (Single Selection) |
+| SelectedText | string | Text item terpilih |
+
+Event dipanggil sekali ketika inisialisasi dan setiap kali selection berubah. Pembedanya adalah property FirstTime dari `SelectedMenuItemEventArgs`.
 
 ---
 
----- | ---- | ----------- |
-| FirstTime | bool | Menandakan event berasal dari proses inisialisasi (`true`) atau dari interaksi user (`false`) |
-
-Event akan otomatis dipanggil saat:
-
-```csharp
-InitializeToolStripMenu()
-```
-
-dengan nilai:
-
-```csharp
-FirstTime = true
-```
-
----
-
-### Cara Penggunaan yang Benar
+### Contoh Penggunaan
 
 ```csharp
 var single = new Single
@@ -167,6 +148,14 @@ SelectedItemIds = new List<int> { 1, 3, 5 };
 ```csharp
 event Action<SelectedMenuItemEventArgs> SelectedMenuItemEvent
 ```
+
+Event `SelectedMenuItemEvent` mengirimkan object `SelectedMenuItemEventArgs` dengan properti berikut:
+
+| Property | Type | Description |
+| ------- | ---- | ----------- |
+| SelectedItemIds | List<int> | Daftar ID terpilih (Multiple Selection) |
+
+Event dipanggil setiap kali selection berubah.
 
 ---
 
