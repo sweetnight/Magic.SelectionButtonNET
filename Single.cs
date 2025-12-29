@@ -17,11 +17,13 @@ namespace Magic.SelectionButtonNET
         {
 
             public int SelectedItemId { get; set; }
+            public bool FirstTime { get; set; }
 
-            public SelectedMenuItemEventArgs(int selectedItemId)
+            public SelectedMenuItemEventArgs(int selectedItemId, bool firstTime)
             {
 
                 SelectedItemId = selectedItemId;
+                FirstTime = firstTime;
 
             } // end of constructor method
 
@@ -66,14 +68,13 @@ namespace Magic.SelectionButtonNET
                     if (item.Key == SelectedItemId)
                     {
                         SelectedMenuItem = menuItem;
-
                         SetMenuItemUI(menuItem, true);
                     }
 
                     ToolStripDropDownButton.DropDownItems.Add(menuItem);
                 }
 
-                InvokeEvent();
+                InvokeEvent(firstTime: true);
             }
 
         } // end of method
@@ -166,11 +167,11 @@ namespace Magic.SelectionButtonNET
 
         } // end of method
 
-        private void InvokeEvent()
+        private void InvokeEvent(bool firstTime = false)
         {
 
             ToolStripDropDownButton!.Text = TrimTextToFit(ToolStripDropDownButton, SelectedMenuItem!.Text!);
-            SelectedMenuItemEvent?.Invoke(new SelectedMenuItemEventArgs(SelectedItemId));
+            SelectedMenuItemEvent?.Invoke(new SelectedMenuItemEventArgs(SelectedItemId, firstTime));
 
         } // end of method
 
